@@ -96,9 +96,9 @@ classdef loop_2d < magnetic_field.element_2d
                               3*pi.*r(bad_points).*h.RL^2./(h.RL^2 + Z2(bad_points));           
             % Return Inf, zeros if (z,r) == (ZL,RL) (the 0 is because z
             % is z-ZL)
-            psi(z==0 & r==h.RL) = Inf;
-            Bz(z==0 & r==h.RL)  = 0;
-            Br(z==0 & r==h.RL)  = 0;            
+            psi(z==h.ZL & r==h.RL) = Inf;
+            Bz(z==h.ZL & r==h.RL)  = 0;
+            Br(z==h.ZL & r==h.RL)  = 0;            
         end 
         function [dBz_dz,dBz_dr,dBr_dz,dBr_dr] = derivatives_2d(h,z,r) 
         % Calculates dervatives of Bz, Br on z,r            
@@ -138,7 +138,7 @@ classdef loop_2d < magnetic_field.element_2d
             dBr_dz = dBz_dr;
             dBr_dr = - dBz_dz + (C .* z ./ (r.*sqrt(MP)) .* (K- (R2+h.RL.^2+Z2).*E))./r; 
             % Remove that contribution if (z,r) == (ZL,RL), and remove NaNs (point at the axis)
-            bad = (z==0 & r==h.RL);
+            bad = (z==h.ZL & r==h.RL);
             dBz_dz(bad) = 0;
             dBz_dr(bad) = 0;
             dBr_dz(bad) = 0;

@@ -107,10 +107,7 @@ classdef loop_3d < magnetic_field.element_3d & magnetic_field.loop_2d
                 return;
             end            
             % transform to local axes
-            x = x(:)-h.origin(1);
-            y = y(:)-h.origin(2);
-            z = z(:)-h.origin(3);            
-            points = [x, y, z];
+            points = [x(:)-h.origin(1), y(:)-h.origin(2), z(:)-h.origin(3)];
             Z = points * h.axis; % Z, distance along axis, is just the projection on the unitary vector h.axis
             points = points - Z * h.axis.'; % here points becomes the perpe vectors from the axis to the points
             R = sqrt(sum(points.*points,2));            
@@ -122,8 +119,8 @@ classdef loop_3d < magnetic_field.element_3d & magnetic_field.loop_2d
             % calculate 2d derivatives and BR field (in local axes)
             [dBZ_dZ,dBZ_dR,dBR_dZ,dBR_dR] = h.derivatives_2d(Z,R);
             [~,~,BR] = h.field_2d(Z,R);
-            BR(good) = BR(good)./R(good); % BR is now BR/R
-            BR(~good) = 0;            
+            BR_R(good) = BR(good)./R(good);
+            BR_R(~good) = dBR_dR(~good);            
             % Transform into global axes derivatives of the field. 
             Zx1 = h.axis(1); % escalar product 1Z*1x. These are the projections of Z and R versors along X,Y,Z.
             Zy1 = h.axis(2); % escalar product 1Z*1y
@@ -137,25 +134,25 @@ classdef loop_3d < magnetic_field.element_3d & magnetic_field.loop_2d
             % Compute 3d derivatives
             dBx_dx(:) = (dBZ_dZ.*Zx1 + dBZ_dR.*Rx1).*Zx1 +...
                         (dBR_dZ.*Zx1 + dBR_dR.*Rx1).*Rx1 +...
-                        BR.*Tx1.*Tx1./R;
+                        BR_R.*Tx1.*Tx1;
             dBx_dy(:) = (dBZ_dZ.*Zy1 + dBZ_dR.*Ry1).*Zx1 +...
                         (dBR_dZ.*Zy1 + dBR_dR.*Ry1).*Rx1 +...
-                        BR.*Ty1.*Tx1./R;
+                        BR_R.*Ty1.*Tx1;
             dBx_dz(:) = (dBZ_dZ.*Zz1 + dBZ_dR.*Rz1).*Zx1 +...
                         (dBR_dZ.*Zz1 + dBR_dR.*Rz1).*Rx1 +...
-                        BR.*Tz1.*Tx1./R;                    
+                        BR_R.*Tz1.*Tx1;                    
             dBy_dx = dBx_dy; % use symmetries (rot(B) = 0)
             dBy_dy(:) = (dBZ_dZ.*Zy1 + dBZ_dR.*Ry1).*Zy1 +...
                         (dBR_dZ.*Zy1 + dBR_dR.*Ry1).*Ry1 +...
-                        BR.*Ty1.*Ty1./R;
+                        BR_R.*Ty1.*Ty1;
             dBy_dz(:) = (dBZ_dZ.*Zz1 + dBZ_dR.*Rz1).*Zy1 +...
                         (dBR_dZ.*Zz1 + dBR_dR.*Rz1).*Ry1 +...
-                        BR.*Tz1.*Ty1./R;                    
+                        BR_R.*Tz1.*Ty1;                    
             dBz_dx = dBx_dz;
             dBz_dy = dBy_dz;
             dBz_dz(:) = (dBZ_dZ.*Zz1 + dBZ_dR.*Rz1).*Zz1 +...
                         (dBR_dZ.*Zz1 + dBR_dR.*Rz1).*Rz1 +...
-                        BR.*Tz1.*Tz1./R;            
+                        BR_R.*Tz1.*Tz1;            
         end 
     end
 %----------------------------------------------------------------------

@@ -46,23 +46,20 @@ classdef library_3d < magnetic_field.element_3d
         function h = library_3d(varargin)
             % Generate defaults
             [XX,YY,ZZ] = meshgrid(linspace(0,10,100),linspace(0,8,120),linspace(0,5,60));
-            loop = magnetic_field.loop_3d;
-            [BX,BY,BZ] = loop.field_3d(XX,YY,ZZ);
-            [dBx_dx,dBx_dy,dBx_dz,~,dBy_dy,dBy_dz,~,~,dBz_dz] = loop.derivatives_3d(XX,YY,ZZ);    
             % Validate input
             p = inputParser;         
             p.addParameter('XX',XX,@isnumeric);
             p.addParameter('YY',YY,@isnumeric);
             p.addParameter('ZZ',ZZ,@isnumeric);   
-            p.addParameter('BX',BX,@isnumeric);
-            p.addParameter('BY',BY,@isnumeric);
-            p.addParameter('BZ',BZ,@isnumeric);            
-            p.addParameter('dBx_dx',dBx_dx,@isnumeric);
-            p.addParameter('dBx_dy',dBx_dy,@isnumeric);
-            p.addParameter('dBx_dz',dBx_dz,@isnumeric);         
-            p.addParameter('dBy_dy',dBy_dy,@isnumeric);
-            p.addParameter('dBy_dz',dBy_dz,@isnumeric);
-            p.addParameter('dBz_dz',dBz_dz,@isnumeric);
+            p.addParameter('BX',XX*0,@isnumeric);
+            p.addParameter('BY',XX*0,@isnumeric);
+            p.addParameter('BZ',XX*0,@isnumeric);            
+            p.addParameter('dBx_dx',XX*0,@isnumeric);
+            p.addParameter('dBx_dy',XX*0,@isnumeric);
+            p.addParameter('dBx_dz',XX*0,@isnumeric);         
+            p.addParameter('dBy_dy',XX*0,@isnumeric);
+            p.addParameter('dBy_dz',XX*0,@isnumeric);
+            p.addParameter('dBz_dz',XX*0,@isnumeric);
             p.addParameter('Xgenerator',{},@iscell);
             p.addParameter('Ygenerator',{},@iscell);
             p.addParameter('Zgenerator',{},@iscell); 

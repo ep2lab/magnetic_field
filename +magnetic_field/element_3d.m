@@ -88,7 +88,11 @@ classdef element_3d < magnetic_field.element
                     break
                 end
             end
-            B_vector(cat(2,input_size,3)) = 0; % allocate
+            if isempty(input_size) % allocate
+                B_vector = zeros([3,1]);
+            else
+                B_vector = zeros(cat(2,input_size,3));
+            end
             [bx,by,bz] = h.field_3d(x,y,z);             
             B_vector(1:numel(x)) = bx;
             B_vector(1+numel(x):2*numel(x)) = by; 
@@ -101,7 +105,8 @@ classdef element_3d < magnetic_field.element
             % normalize each vector
             B = sqrt(b_vector(1:numel(x)).^2+b_vector(1+numel(x):2*numel(x)).^2+b_vector(1+2*numel(x):end).^2);
             b_vector(1:numel(x)) = b_vector(1:numel(x))./B;
-            b_vector(1+numel(x):end) = b_vector(1+numel(x):end)./B; 
+            b_vector(1+numel(x):2*numel(x)) = b_vector(1+numel(x):2*numel(x))./B; 
+            b_vector(1+2*numel(x):end) = b_vector(1+2*numel(x):end)./B;
         end
         function n_vector = n_vector_3d(h,XX,YY,ZZ)
         % Computes curvature of magnetic lines
@@ -115,6 +120,13 @@ classdef element_3d < magnetic_field.element
         % ds and for a total n_steps with ode45.
         % The output are the arrays of points of the streamline(s), added in
         % a new last dimension wrt x,y,z arrays.
+            % Trivial case
+            if n_steps == 1 % no steps to take
+                X = x;
+                Y = y;
+                Z = z;
+                return;
+            end
             % Input parsing
             if ~exist('odeoptions','var')
                 odeoptions = odeset('RelTol',1e-3,'AbsTol',1e-3,'InitialStep',0.1);
@@ -127,25 +139,37 @@ classdef element_3d < magnetic_field.element
                 else
                     break
                 end
+            end 
+            if isempty(input_size) % allocate
+                X = zeros([n_steps,1]);
+            else
+                X = zeros(cat(2,input_size,n_steps));
             end
-            X(cat(2,input_size,n_steps)) = 0; 
             Y = X; 
             Z = X;
             % Integration
-            b = @(t,p) h.b_vector_3d(p(1),p(2),p(3)).';
+            b = @(t,p) h.b_vector_3d(p(1),p(2),p(3));
+            s_span = linspace(0,ds*(n_steps-1),n_steps).';
             if n_steps>2
-                s_span = linspace(0,ds*(n_steps-1),n_steps).';
-            else
-                s_span = [0,ds,2*ds]; % add an extra, ignored point because otherwise ode45 does not work
-            end            
-            for i = 1:numel(x)
-                [~,p] = ode45(b,s_span,[x(i);y(i);z(i)],odeoptions); 
-                for j = 1:n_steps
-                    X(i+(j-1)*numel(x)) = p(j,1);
-                    Y(i+(j-1)*numel(x)) = p(j,2);
-                    Z(i+(j-1)*numel(x)) = p(j,3);                
+                for i = 1:numel(x)                       
+                    [~,p] = ode45(b,s_span,[x(i);y(i);z(i)],odeoptions);
+                    for j = 1:n_steps
+                        X(i+(j-1)*numel(x)) = p(j,1);
+                        Y(i+(j-1)*numel(x)) = p(j,2);
+                        Z(i+(j-1)*numel(x)) = p(j,3);
+                    end
                 end
-            end 
+            else % Treat n_steps == 2 case separately as ode45 messes up in this case                
+                for i = 1:numel(x)                    
+                    [~,p] = ode45(b,s_span,[x(i);y(i);z(i)],odeoptions);
+                    X(i) = p(1,1);
+                    Y(i) = p(1,2);
+                    Z(i) = p(1,3);
+                    X(i+numel(x)) = p(end,1);
+                    Y(i+numel(x)) = p(end,2);
+                    Z(i+numel(x)) = p(end,3);
+                end
+            end    
         end       
         function [X,Y,Z] = next_point_3d(h,x,y,z,ds,odeoptions)
         % Computes next point along streamline(s) that pass by x,y,z
@@ -192,7 +216,7 @@ classdef element_3d < magnetic_field.element
             t2points = p.Results.t2points; 
             surfaceopts = p.Unmatched; % anything else are surface options
             % Meshgrid and field arrays             
-            [x,y,z] = utilities.meshgrid_inclined_plane(o,v1,v2,t1Lim,t2Lim,t1points,t2points); % !!! requires matlabtools                        
+            [x,y,z] = utilities.meshgrid_inclined_plane(o,v1,v2,t1Lim,t2Lim,t1points,t2points); % requires utilities package
             [Bx,By,Bz] = h.field_3d(x,y,z); 
             % Compute variable to plot and call surface
             quantity = eval(var); % !!! Potential security risk
