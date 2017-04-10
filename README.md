@@ -9,8 +9,8 @@ wire segments, in 2D and 3D.
 ## Installation
 
 Installation requires simply that you 
-[download FUMAGNO](https://github.com/mariomerinomartinez/fumagno/archive/master.zip) 
-and add the base directory (the one that contains the `+fumagno` directory) to 
+[download MAGNETIC_FIELD](https://github.com/mariomerinomartinez/magnetic_field/archive/master.zip) 
+and add the base directory (the one that contains the `+magnetic_field` directory) to 
 your Matlab path.
 
 ### Dependencies
