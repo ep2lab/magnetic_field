@@ -1,6 +1,8 @@
 MAGNETIC_FIELD
 ==============
-  
+
+[![DOI](https://zenodo.org/badge/85017158.svg)](https://zenodo.org/badge/latestdoi/85017158)
+
 Magnetic field classes based on the analytical solution for coils and
 wire segments, in 2D and 3D.
 
@@ -78,9 +80,10 @@ This program is released as open source in the hope that it will be useful to
 other people. 
 
 If you find it useful and/or use it in any of your works, I kindly ask you
-to acknowledge it by citing [TBD] (preferred) 
-and/or by citing the code directly as: [TBD] 
+to acknowledge it by citing the code directly as: 
 
+> Mario Merino (2017). mariomerinomartinez/magnetic_field: First release DOI:10.5281/zenodo.496131
+ 
 ## License
 
 Copyright (c) 2017 Mario Merino. The software is released as open 
