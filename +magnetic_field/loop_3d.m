@@ -118,8 +118,8 @@ classdef loop_3d < magnetic_field.element_3d & magnetic_field.loop_2d
             points(~good,:) = 0;            
             % calculate 2d derivatives and BR field (in local axes)
             [dBZ_dZ,dBZ_dR,dBR_dZ,dBR_dR] = h.derivatives_2d(Z,R);
-            [~,~,BR] = h.field_2d(Z,R);
-            BR_R(good) = BR(good)./R(good);
+            [~,~,BR_R] = h.field_2d(Z,R);
+            BR_R(good) = BR_R(good)./R(good);
             BR_R(~good) = dBR_dR(~good);            
             % Transform into global axes derivatives of the field. 
             Zx1 = h.axis(1); % escalar product 1Z*1x. These are the projections of Z and R versors along X,Y,Z.
