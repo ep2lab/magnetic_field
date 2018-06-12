@@ -109,15 +109,16 @@ classdef library_3d < magnetic_field.element_3d
             if ~exist('B0','var')
                 B0 = 1; % if nothing provided, normalize to 1
             end      
-            h.BX = h.BX * B0/h.B_3d(0,0,0);
-            h.BY = h.BY * B0/h.B_3d(0,0,0);
-            h.BZ = h.BZ * B0/h.B_3d(0,0,0);
-            h.dBx_dx = h.dBx_dx * B0/h.B_3d(0,0,0); % DERIVATIVES
-            h.dBx_dy = h.dBx_dy * B0/h.B_3d(0,0,0); 
-            h.dBx_dz = h.dBx_dz * B0/h.B_3d(0,0,0);
-            h.dBy_dy = h.dBy_dy * B0/h.B_3d(0,0,0);
-            h.dBy_dz = h.dBy_dz * B0/h.B_3d(0,0,0);
-            h.dBz_dz = h.dBz_dz * B0/h.B_3d(0,0,0);
+            oldB0 = h.B_3d(0,0,0);
+            h.BX = h.BX * B0/oldB0;
+            h.BY = h.BY * B0/oldB0;
+            h.BZ = h.BZ * B0/oldB0;
+            h.dBx_dx = h.dBx_dx * B0/oldB0; % DERIVATIVES
+            h.dBx_dy = h.dBx_dy * B0/oldB0; 
+            h.dBx_dz = h.dBx_dz * B0/oldB0;
+            h.dBy_dy = h.dBy_dy * B0/oldB0;
+            h.dBy_dz = h.dBy_dz * B0/oldB0;
+            h.dBz_dz = h.dBz_dz * B0/oldB0;
         end
         function [Bx,By,Bz] = field_3d(h,x,y,z) 
             % Get interpolation indices

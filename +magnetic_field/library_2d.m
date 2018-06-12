@@ -86,12 +86,13 @@ classdef library_2d < magnetic_field.element_2d
             if ~exist('B0','var')
                 B0 = 1; % if nothing provided, normalize to 1
             end  
-            h.PSI = h.PSI * B0/h.B_2d(0,0);
-            h.BZ = h.BZ * B0/h.B_2d(0,0);
-            h.BR = h.BR * B0/h.B_2d(0,0);
-            h.dBz_dz = h.dBz_dz * B0/h.B_2d(0,0);
-            h.dBz_dr = h.dBz_dr * B0/h.B_2d(0,0);
-            h.dBr_dr = h.dBr_dr * B0/h.B_2d(0,0);
+            oldB0 = h.B_2d(0,0);
+            h.PSI = h.PSI * B0/oldB0;
+            h.BZ = h.BZ * B0/oldB0;
+            h.BR = h.BR * B0/oldB0;
+            h.dBz_dz = h.dBz_dz * B0/oldB0;
+            h.dBz_dr = h.dBz_dr * B0/oldB0;
+            h.dBr_dr = h.dBr_dr * B0/oldB0;
         end
         function [psi,Bz,Br] = field_2d(h,z,r)
             % Get interpolation indices
