@@ -9,7 +9,7 @@ wire segments, in 2D and 3D.
 ## Installation
 
 Installation requires simply that you 
-[download MAGNETIC_FIELD](https://github.com/mariomerinomartinez/magnetic_field/archive/master.zip) 
+[download MAGNETIC_FIELD](https://github.com/ep2lab/magnetic_field/archive/master.zip) 
 and add the base directory (the one that contains the `+magnetic_field` directory) to 
 your Matlab path.
 
@@ -21,9 +21,9 @@ The code has been developed in Matlab 2016a Academic version.
 MAGNETIC_FIELD 
 depends on other Matlab packages that you can download from my GitHub
 account:
-[utilities](https://github.com/mariomerinomartinez/utilities)
+[utilities](https://github.com/ep2lab/utilities)
 and
-[constants_and_units](https://github.com/mariomerinomartinez/constants_and_units).
+[constants_and_units](https://github.com/ep2lab/constants_and_units).
 These packages must be installed and added to your Matlab path beforehand.
 
 ## Usage
