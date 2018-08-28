@@ -71,15 +71,17 @@ subdirectory.
 
 If you have any comments for improvement or 
 are interested in contributing to the continued 
-development of this or any of my other codes, you can contact me 
-through my [personal website](http://mariomerino.uc3m.es/).
+development of this or any of my other codes, you can contact us
+through our [website](http://ep2.uc3m.es/). 
+
+For updates and news, follow us on Twitter: [@ep2lab.](https://twitter.com/ep2lab).
 
 ## Acknowledging 
 
 This program is released as open source in the hope that it will be useful to
 other people. 
 
-If you find it useful and/or use it in any of your works, I kindly ask you
+If you find it useful and/or use it in any of your works, we kindly ask you
 to acknowledge it by citing the code directly as: 
 
 > Mario Merino (2017). mariomerinomartinez/magnetic_field: First release DOI:10.5281/zenodo.496131
