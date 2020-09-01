@@ -142,8 +142,7 @@ classdef element_2d < magnetic_field.element
                     continue;
                 end
                 % Initial approximation to new point
-                [psi0,Bz,Br] = h.field_2d(z(i),r(i));
-                B = sqrt(Bz^2+Br^2);
+                [psi0,Bz,Br] = h.field_2d(z(i),r(i)); 
                 % Compute theta (angle to new point)
                 theta = fzero(@(theta)psi0-h.field_2d(z(i)+ ds*cos(theta),r(i)+ds*sin(theta)),atan2(Br,Bz));
                 % Assign

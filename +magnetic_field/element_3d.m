@@ -129,7 +129,7 @@ classdef element_3d < magnetic_field.element
             end
             % Input parsing
             if ~exist('odeoptions','var')
-                odeoptions = odeset('RelTol',1e-3,'AbsTol',1e-3,'InitialStep',0.1);
+                odeoptions = odeset;
             end
             % Allocate output
             input_size = size(x); % find non-singleton size of input
@@ -153,7 +153,7 @@ classdef element_3d < magnetic_field.element
             if n_steps>2
                 for i = 1:numel(x)                       
                     [~,p] = ode45(b,s_span,[x(i);y(i);z(i)],odeoptions);
-                    for j = 1:n_steps
+                    for j = 1:length(p(:,1))
                         X(i+(j-1)*numel(x)) = p(j,1);
                         Y(i+(j-1)*numel(x)) = p(j,2);
                         Z(i+(j-1)*numel(x)) = p(j,3);
