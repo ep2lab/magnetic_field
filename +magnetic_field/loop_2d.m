@@ -79,6 +79,8 @@ classdef loop_2d < magnetic_field.element_2d
             Z2 = z.^2;
             SQRT = (h.RL+r).^2+Z2;
             k2 = 4.*h.RL.*r./SQRT;
+            k2 = min(k2,1); % Avoid numerical problems: k2 in [0,1] strictly
+            k2 = max(k2,0);
             SQRT = sqrt(SQRT);
             if h.interpKE % test for faster computation of KE
                 [K,E] = h.ellipke(k2);
