@@ -120,7 +120,9 @@ classdef element_2d < magnetic_field.element
                     break
                 end
             end            
-            Z(cat(2,input_size,n_steps)) = 0; 
+            s = [input_size,n_steps];
+            s = num2cell(s);
+            Z(s{:}) = 0; 
             R = Z; 
             % Initial points
             for i = 1:numel(z)

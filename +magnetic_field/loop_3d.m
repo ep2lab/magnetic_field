@@ -172,8 +172,7 @@ classdef loop_3d < magnetic_field.element_3d & magnetic_field.loop_2d
             	points(:,i) = h.RL*(p*cos(theta(i)) + q*sin(theta(i))) + h.origin;
             end
             % Plot                       
-            h_line = line('XData',points(1,:),'YData',points(2,:),'ZData',points(3,:),'DisplayName',inputname(1));
-            set(h_line,varargin{:});
+            h_line = line('XData',points(1,:),'YData',points(2,:),'ZData',points(3,:),'DisplayName',inputname(1),varargin{:});
         end
     end   
 %----------------------------------------------------------------------
